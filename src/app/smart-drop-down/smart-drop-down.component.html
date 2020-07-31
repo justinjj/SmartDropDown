@@ -1,0 +1,34 @@
+<div class="smart-drop-down">
+    <button (click)="showMyContainer=!showMyContainer" class="btn-show-hide">Select a location</button>
+    <div class="drop-down-list" *ngIf="showMyContainer">
+        <div [formGroup]="countrySelectForm">
+            <div class="search-bar">
+                <input type="text" formControlName="search"><i class="fa fa-search"></i>
+            </div>
+            <div class="no-result-wrapper" *ngIf="showCountryList.length == 0">
+                <p>"{{countrySelectForm.value.search}}" not found</p>
+                <button 
+                    type="button" 
+                    (click)="addAndSelect()" 
+                    class="btn btn-clean"
+                    *ngIf="hasAddPermission">
+                    Add & Select
+                </button>
+            </div>
+            <div *ngFor="let item of showCountryList | slice:0:defaultCount; let i = index;">
+                <input
+                    type="radio" 
+                    formControlName="selectContryName" 
+                    id="radio{{i}}" 
+                    name="selectContryName"
+                    [value]=item.key>
+                <label for="radio{{i}}">
+                    {{item.name || '?'}}
+                </label>
+            </div>
+            <button type="button" class="show-more btn btn-clean" (click)="defaultCount = countryList.length" *ngIf="(countryList.length - defaultCount) > 0">
+                {{countryList.length - defaultCount}} More
+            </button>
+        </div>
+    </div>
+</div>
